@@ -3,473 +3,314 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PawConnect - Stray Animal Rescue Platform</title>
+    <title>PawConnect 🐾 - Stray Animal Rescue Platform</title>
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 </head>
 <body>
-    <div class="app-container">
-        <div class="header">
-            🐾 PawConnect - Stray Animal Rescue Platform
+    <!-- Notification Banner -->
+    <div id="notificationBanner" class="notification-banner" style="display: none;">
+        <span id="notificationText"></span>
+        <button id="closeNotification" class="close-notification">&times;</button>
+    </div>
+
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                🐾 PawConnect
+            </div>
+            <ul class="nav-menu">
+                <li class="nav-item">
+                    <a href="#home" class="nav-link active" data-section="home">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a href="#report" class="nav-link" data-section="report">Report</a>
+                </li>
+                <li class="nav-item">
+                    <a href="#adopt" class="nav-link" data-section="adopt">Adopt</a>
+                </li>
+                <li class="nav-item">
+                    <a href="#volunteer" class="nav-link" data-section="volunteer">Volunteer</a>
+                </li>
+                <li class="nav-item">
+                    <a href="#settings" class="nav-link" data-section="settings">Settings</a>
+                </li>
+            </ul>
+            <div class="hamburger">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </div>
         </div>
-        
-        <div class="main-content">
+    </nav>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Home Section -->
+        <section id="home" class="section active">
+            <div class="hero">
+                <h1>Welcome to PawConnect 🐾</h1>
+                <p>Connecting stray animals with loving homes through community reporting and shelter partnerships.</p>
+            </div>
+
             <!-- Location Status -->
             <div id="locationStatus" class="location-status loading">
                 <div id="locationText">📍 Getting your location...</div>
             </div>
-            
+
             <!-- Interactive Map -->
             <div class="map-container">
+                <h3>Stray Animal Reports Map</h3>
                 <div id="map"></div>
-            </div>
-            
-            <!-- Controls Section -->
-            <div class="controls-section">
-                <button id="reportStrayBtn" class="report-button">
-                    🐕 Report a Stray Animal
-                </button>
-                <button id="viewReportsBtn" class="report-button" style="background: linear-gradient(135deg, #ff6b6b, #ff8e8e);">
-                    📋 View Recent Reports
-                </button>
-            </div>
-            
-            <!-- Recent Stray Reports -->
-            <div id="strayReports" class="stray-reports" style="display: none;">
-                <h3>🐾 Recent Stray Reports</h3>
-                <div id="reportsList"></div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Report Stray Modal -->
-    <div id="reportModal" class="modal">
-        <div class="modal-content">
-            <span class="close">&times;</span>
-            <h2>🐕 Report a Stray Animal</h2>
-            
-            <div id="reportForm">
-                <div class="form-section">
-                    <div class="icon">📷</div>
-                    <div class="content">
-                        <div class="label">Upload Photo</div>
-                        <input type="file" id="photoInput" class="input" accept="image/*" required>
+                <div class="map-legend">
+                    <div class="legend-item">
+                        <span class="legend-icon">🐾</span>
+                        <span>Stray Animal Reports</span>
+                    </div>
+                    <div class="legend-item">
+                        <span class="legend-icon">🏥</span>
+                        <span>Animal Shelters</span>
+                    </div>
+                    <div class="legend-item">
+                        <span class="legend-icon">📍</span>
+                        <span>Your Location</span>
                     </div>
                 </div>
-                
-                <div class="form-section">
-                    <div class="icon">📍</div>
-                    <div class="content">
-                        <div class="label">Location</div>
-                        <input type="text" id="locationInput" class="input" placeholder="Click 'Use My Location' to auto-fill" readonly>
-                        <button id="useLocationBtn" class="report-button" style="margin-top: 10px; padding: 10px 20px; font-size: 14px;">
+            </div>
+
+            <!-- Quick Actions -->
+            <div class="quick-actions">
+                <h3>Quick Actions</h3>
+                <div class="action-grid">
+                    <button class="action-card" data-section="report">
+                        <div class="action-icon">📸</div>
+                        <h4>Report a Stray</h4>
+                        <p>Help a lost animal find safety</p>
+                    </button>
+                    <button class="action-card" data-section="adopt">
+                        <div class="action-icon">🐕</div>
+                        <h4>Adopt a Pet</h4>
+                        <p>Find your new best friend</p>
+                    </button>
+                    <button class="action-card" data-section="volunteer">
+                        <div class="action-icon">❤️</div>
+                        <h4>Volunteer</h4>
+                        <p>Make a difference today</p>
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Report Section -->
+        <section id="report" class="section">
+            <div class="section-header">
+                <h2>🐕 Report a Stray Animal</h2>
+                <p>Help us locate and rescue stray animals in your area</p>
+            </div>
+
+            <div class="report-form-container">
+                <form id="reportForm" class="report-form">
+                    <div class="form-group">
+                        <label for="photoInput" class="form-label">
+                            📷 Upload Photo
+                        </label>
+                        <input type="file" id="photoInput" class="form-input" accept="image/*" required>
+                        <div id="photoPreview" class="photo-preview"></div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="locationInput" class="form-label">
+                            📍 Location
+                        </label>
+                        <input type="text" id="locationInput" class="form-input" placeholder="Click 'Use My Location' to auto-fill" readonly>
+                        <button type="button" id="useLocationBtn" class="btn-secondary">
                             📍 Use My Location
                         </button>
                     </div>
-                </div>
-                
-                <div class="form-section">
-                    <div class="icon">📝</div>
-                    <div class="content">
-                        <div class="label">Description</div>
-                        <textarea id="descriptionInput" class="input" placeholder="Describe the animal, condition, behavior, etc." rows="3" required></textarea>
+
+                    <div class="form-group">
+                        <label for="descriptionInput" class="form-label">
+                            📝 Description
+                        </label>
+                        <textarea id="descriptionInput" class="form-textarea" placeholder="Describe the animal, condition, behavior, etc." rows="4" required></textarea>
                     </div>
-                </div>
-                
-                <div class="form-section">
-                    <div class="icon">🏥</div>
-                    <div class="content">
-                        <div class="label">Select Nearby Shelter</div>
-                        <div id="shelterSelection">
+
+                    <div class="form-group">
+                        <label class="form-label">🏥 Select Nearby Shelter</label>
+                        <div id="shelterSelection" class="shelter-selection">
                             <p>Loading nearby shelters...</p>
                         </div>
                     </div>
-                </div>
-                
-                <button id="submitReportBtn" class="submit-button" disabled>
-                    Submit Report
-                </button>
+
+                    <button type="submit" id="submitReportBtn" class="btn-primary" disabled>
+                        Submit Report
+                    </button>
+                </form>
             </div>
-        </div>
-    </div>
+        </section>
 
-    <script>
-        // Global variables
-        let map;
-        let userLocation = null;
-        let selectedShelter = null;
-        let strayReports = [];
-        let shelters = [
-            {
-                id: 1,
-                name: "BARC Houston",
-                address: "3200 Carr St, Houston, TX 77026",
-                phone: "(713) 229-7300",
-                coords: [29.7604, -95.3698],
-                capacity: 50
-            },
-            {
-                id: 2,
-                name: "Friends For Life",
-                address: "107 E 22nd St, Houston, TX 77008",
-                phone: "(713) 863-9835",
-                coords: [29.7984, -95.4019],
-                capacity: 30
-            },
-            {
-                id: 3,
-                name: "Houston Pets Alive",
-                address: "2800 Antoine Dr, Houston, TX 77092",
-                phone: "(713) 862-3863",
-                coords: [29.8018, -95.4565],
-                capacity: 25
-            },
-            {
-                id: 4,
-                name: "SPCA of Texas - Houston",
-                address: "900 Portway Dr, Houston, TX 77024",
-                phone: "(713) 869-7722",
-                coords: [29.7849, -95.4565],
-                capacity: 40
-            }
-        ];
+        <!-- Adopt Section -->
+        <section id="adopt" class="section">
+            <div class="section-header">
+                <h2>🐕 Adopt a Pet</h2>
+                <p>Find your perfect companion from local shelters</p>
+            </div>
 
-        // Initialize the app
-        document.addEventListener('DOMContentLoaded', function() {
-            initializeMap();
-            getCurrentLocation();
-            setupEventListeners();
-            loadStrayReports();
-        });
+            <div class="adopt-filters">
+                <select id="speciesFilter" class="filter-select">
+                    <option value="">All Animals</option>
+                    <option value="dog">Dogs</option>
+                    <option value="cat">Cats</option>
+                    <option value="other">Other</option>
+                </select>
+                <select id="ageFilter" class="filter-select">
+                    <option value="">All Ages</option>
+                    <option value="puppy">Puppy/Kitten</option>
+                    <option value="adult">Adult</option>
+                    <option value="senior">Senior</option>
+                </select>
+            </div>
 
-        // Initialize map
-        function initializeMap() {
-            // Default to Houston, TX
-            map = L.map('map').setView([29.7604, -95.3698], 11);
-            
-            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-                attribution: '© OpenStreetMap contributors'
-            }).addTo(map);
+            <div id="petsGrid" class="pets-grid">
+                <!-- Pet cards will be populated by JavaScript -->
+            </div>
+        </section>
 
-            // Add shelter markers
-            addShelterMarkers();
-        }
+        <!-- Volunteer Section -->
+        <section id="volunteer" class="section">
+            <div class="section-header">
+                <h2>❤️ Volunteer & Donate</h2>
+                <p>Make a difference in the lives of animals</p>
+            </div>
 
-        // Add shelter markers to map
-        function addShelterMarkers() {
-            shelters.forEach(shelter => {
-                const shelterIcon = L.divIcon({
-                    className: 'shelter-marker',
-                    html: '🏥',
-                    iconSize: [30, 30],
-                    iconAnchor: [15, 15]
-                });
-                
-                L.marker(shelter.coords, { icon: shelterIcon })
-                    .addTo(map)
-                    .bindPopup(`
-                        <strong>${shelter.name}</strong><br>
-                        ${shelter.address}<br>
-                        📞 ${shelter.phone}<br>
-                        Capacity: ${shelter.capacity} animals
-                    `);
-            });
-        }
+            <div class="volunteer-options">
+                <div class="volunteer-card">
+                    <div class="volunteer-icon">🤝</div>
+                    <h3>Volunteer</h3>
+                    <p>Help at local shelters, walk dogs, or assist with rescue operations</p>
+                    <button id="volunteerSignupBtn" class="btn-primary">Sign Up to Volunteer</button>
+                </div>
 
-        // Get user's current location
-        function getCurrentLocation() {
-            const locationStatus = document.getElementById('locationStatus');
-            const locationText = document.getElementById('locationText');
-            
-            if (navigator.geolocation) {
-                locationText.innerHTML = '<span class="loading-spinner"></span> Getting your location...';
-                
-                navigator.geolocation.getCurrentPosition(
-                    function(position) {
-                        userLocation = {
-                            lat: position.coords.latitude,
-                            lng: position.coords.longitude
-                        };
-                        
-                        // Update map view
-                        map.setView([userLocation.lat, userLocation.lng], 13);
-                        
-                        // Add user location marker
-                        const userIcon = L.divIcon({
-                            className: 'user-marker',
-                            html: '📍',
-                            iconSize: [25, 25],
-                            iconAnchor: [12, 12]
-                        });
-                        
-                        L.marker([userLocation.lat, userLocation.lng], { icon: userIcon })
-                            .addTo(map)
-                            .bindPopup('Your Location');
-                        
-                        // Update location status
-                        locationStatus.className = 'location-status success';
-                        locationText.innerHTML = `✅ Location found: ${userLocation.lat.toFixed(4)}, ${userLocation.lng.toFixed(4)}`;
-                        
-                        // Add stray report markers
-                        addStrayReportMarkers();
-                    },
-                    function(error) {
-                        locationStatus.className = 'location-status error';
-                        locationText.innerHTML = '❌ Unable to get location. Please enable location services.';
-                        console.error('Geolocation error:', error);
-                    }
-                );
-            } else {
-                locationStatus.className = 'location-status error';
-                locationText.innerHTML = '❌ Geolocation not supported by this browser.';
-            }
-        }
+                <div class="volunteer-card">
+                    <div class="volunteer-icon">💰</div>
+                    <h3>Donate</h3>
+                    <p>Support animal rescue efforts with your contribution</p>
+                    <button id="donateBtn" class="btn-primary">Donate Now</button>
+                </div>
+            </div>
 
-        // Add stray report markers to map
-        function addStrayReportMarkers() {
-            strayReports.forEach((report, index) => {
-                const pawIcon = L.divIcon({
-                    className: 'paw-marker',
-                    html: '🐾',
-                    iconSize: [25, 25],
-                    iconAnchor: [12, 12]
-                });
-                
-                L.marker([report.lat, report.lng], { icon: pawIcon })
-                    .addTo(map)
-                    .bindPopup(`
-                        <strong>Stray Animal Report</strong><br>
-                        ${report.description}<br>
-                        <small>Reported: ${new Date(report.timestamp).toLocaleDateString()}</small>
-                    `);
-            });
-        }
+            <!-- Volunteer Form Modal -->
+            <div id="volunteerModal" class="modal">
+                <div class="modal-content">
+                    <span class="close">&times;</span>
+                    <h3>Volunteer Sign-Up</h3>
+                    <form id="volunteerForm" class="volunteer-form">
+                        <div class="form-group">
+                            <label for="volunteerName" class="form-label">Full Name</label>
+                            <input type="text" id="volunteerName" class="form-input" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="volunteerEmail" class="form-label">Email</label>
+                            <input type="email" id="volunteerEmail" class="form-input" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="volunteerPhone" class="form-label">Phone</label>
+                            <input type="tel" id="volunteerPhone" class="form-input" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="volunteerInterests" class="form-label">Interests</label>
+                            <select id="volunteerInterests" class="form-input" multiple>
+                                <option value="walking">Dog Walking</option>
+                                <option value="feeding">Feeding</option>
+                                <option value="cleaning">Shelter Cleaning</option>
+                                <option value="adoption">Adoption Events</option>
+                                <option value="transport">Animal Transport</option>
+                            </select>
+                        </div>
+                        <button type="submit" class="btn-primary">Submit Application</button>
+                    </form>
+                </div>
+            </div>
 
-        // Setup event listeners
-        function setupEventListeners() {
-            // Report stray button
-            document.getElementById('reportStrayBtn').addEventListener('click', openReportModal);
-            
-            // View reports button
-            document.getElementById('viewReportsBtn').addEventListener('click', toggleReportsView);
-            
-            // Modal close
-            document.querySelector('.close').addEventListener('click', closeReportModal);
-            
-            // Use location button
-            document.getElementById('useLocationBtn').addEventListener('click', useCurrentLocation);
-            
-            // Submit report button
-            document.getElementById('submitReportBtn').addEventListener('click', submitReport);
-            
-            // Photo input change
-            document.getElementById('photoInput').addEventListener('change', validateForm);
-            
-            // Description input change
-            document.getElementById('descriptionInput').addEventListener('input', validateForm);
-        }
+            <!-- Donation Form Modal -->
+            <div id="donationModal" class="modal">
+                <div class="modal-content">
+                    <span class="close">&times;</span>
+                    <h3>Make a Donation</h3>
+                    <form id="donationForm" class="donation-form">
+                        <div class="form-group">
+                            <label for="donationAmount" class="form-label">Amount</label>
+                            <select id="donationAmount" class="form-input" required>
+                                <option value="">Select Amount</option>
+                                <option value="25">$25</option>
+                                <option value="50">$50</option>
+                                <option value="100">$100</option>
+                                <option value="250">$250</option>
+                                <option value="500">$500</option>
+                                <option value="custom">Custom Amount</option>
+                            </select>
+                            <input type="number" id="customAmount" class="form-input" placeholder="Enter custom amount" style="display: none;">
+                        </div>
+                        <div class="form-group">
+                            <label for="donationShelter" class="form-label">Designated Shelter</label>
+                            <select id="donationShelter" class="form-input">
+                                <option value="general">General Fund</option>
+                                <option value="barc">BARC Houston</option>
+                                <option value="friends">Friends For Life</option>
+                                <option value="pets-alive">Houston Pets Alive</option>
+                            </select>
+                        </div>
+                        <button type="submit" class="btn-primary">Process Donation</button>
+                    </form>
+                </div>
+            </div>
+        </section>
 
-        // Open report modal
-        function openReportModal() {
-            document.getElementById('reportModal').style.display = 'block';
-            loadNearbyShelters();
-        }
+        <!-- Settings Section -->
+        <section id="settings" class="section">
+            <div class="section-header">
+                <h2>⚙️ Settings</h2>
+                <p>Customize your PawConnect experience</p>
+            </div>
 
-        // Close report modal
-        function closeReportModal() {
-            document.getElementById('reportModal').style.display = 'none';
-            resetReportForm();
-        }
-
-        // Load nearby shelters
-        function loadNearbyShelters() {
-            const shelterSelection = document.getElementById('shelterSelection');
-            
-            if (!userLocation) {
-                shelterSelection.innerHTML = '<p>❌ Location required to find nearby shelters</p>';
-                return;
-            }
-            
-            shelterSelection.innerHTML = '<h4>Select a shelter to send this report to:</h4><div class="shelter-grid"></div>';
-            const shelterGrid = shelterSelection.querySelector('.shelter-grid');
-            
-            shelters.forEach(shelter => {
-                const distance = calculateDistance(userLocation.lat, userLocation.lng, shelter.coords[0], shelter.coords[1]);
-                const shelterCard = document.createElement('div');
-                shelterCard.className = 'shelter-card';
-                shelterCard.innerHTML = `
-                    <h4>${shelter.name}</h4>
-                    <p>${shelter.address}</p>
-                    <p>📞 ${shelter.phone}</p>
-                    <p class="distance">📍 ${distance.toFixed(1)} miles away</p>
-                `;
-                
-                shelterCard.addEventListener('click', () => selectShelter(shelter, shelterCard));
-                shelterGrid.appendChild(shelterCard);
-            });
-        }
-
-        // Select shelter
-        function selectShelter(shelter, cardElement) {
-            // Remove previous selection
-            document.querySelectorAll('.shelter-card').forEach(card => {
-                card.classList.remove('selected');
-            });
-            
-            // Select new shelter
-            cardElement.classList.add('selected');
-            selectedShelter = shelter;
-            validateForm();
-        }
-
-        // Use current location
-        function useCurrentLocation() {
-            if (userLocation) {
-                document.getElementById('locationInput').value = `${userLocation.lat.toFixed(4)}, ${userLocation.lng.toFixed(4)}`;
-                validateForm();
-            } else {
-                alert('Location not available. Please try again.');
-            }
-        }
-
-        // Validate form
-        function validateForm() {
-            const photo = document.getElementById('photoInput').files[0];
-            const description = document.getElementById('descriptionInput').value.trim();
-            const submitBtn = document.getElementById('submitReportBtn');
-            
-            if (photo && description && selectedShelter) {
-                submitBtn.disabled = false;
-            } else {
-                submitBtn.disabled = true;
-            }
-        }
-
-        // Submit report
-        function submitReport() {
-            const photo = document.getElementById('photoInput').files[0];
-            const description = document.getElementById('descriptionInput').value.trim();
-            const location = document.getElementById('locationInput').value;
-            
-            if (!photo || !description || !selectedShelter) {
-                alert('Please fill in all required fields and select a shelter.');
-                return;
-            }
-            
-            // Create new report
-            const newReport = {
-                id: Date.now(),
-                photo: URL.createObjectURL(photo),
-                description: description,
-                location: location,
-                lat: userLocation.lat,
-                lng: userLocation.lng,
-                shelter: selectedShelter.name,
-                timestamp: new Date().toISOString()
-            };
-            
-            // Add to reports array
-            strayReports.unshift(newReport);
-            
-            // Update map
-            addStrayReportMarkers();
-            
-            // Update reports list
-            updateReportsList();
-            
-            // Show success message
-            showSuccessMessage(`Report submitted successfully to ${selectedShelter.name}!`);
-            
-            // Close modal
-            closeReportModal();
-        }
-
-        // Show success message
-        function showSuccessMessage(message) {
-            const successDiv = document.createElement('div');
-            successDiv.className = 'success-message';
-            successDiv.textContent = message;
-            
-            document.querySelector('.main-content').insertBefore(successDiv, document.querySelector('.controls-section'));
-            
-            setTimeout(() => {
-                successDiv.remove();
-            }, 5000);
-        }
-
-        // Reset report form
-        function resetReportForm() {
-            document.getElementById('reportForm').reset();
-            selectedShelter = null;
-            document.getElementById('submitReportBtn').disabled = true;
-        }
-
-        // Toggle reports view
-        function toggleReportsView() {
-            const reportsDiv = document.getElementById('strayReports');
-            const btn = document.getElementById('viewReportsBtn');
-            
-            if (reportsDiv.style.display === 'none') {
-                reportsDiv.style.display = 'block';
-                btn.textContent = '📋 Hide Reports';
-                updateReportsList();
-            } else {
-                reportsDiv.style.display = 'none';
-                btn.textContent = '📋 View Recent Reports';
-            }
-        }
-
-        // Update reports list
-        function updateReportsList() {
-            const reportsList = document.getElementById('reportsList');
-            
-            if (strayReports.length === 0) {
-                reportsList.innerHTML = '<p>No stray reports yet. Be the first to report a stray animal!</p>';
-                return;
-            }
-            
-            reportsList.innerHTML = strayReports.map(report => `
-                <div class="stray-report-item">
-                    <img src="${report.photo}" alt="Stray animal">
-                    <div class="stray-report-info">
-                        <h4>Stray Animal Report</h4>
-                        <p><strong>Description:</strong> ${report.description}</p>
-                        <p><strong>Location:</strong> ${report.location}</p>
-                        <p><strong>Sent to:</strong> ${report.shelter}</p>
-                        <p><strong>Reported:</strong> ${new Date(report.timestamp).toLocaleString()}</p>
+            <div class="settings-container">
+                <div class="setting-group">
+                    <h3>Notifications</h3>
+                    <div class="setting-item">
+                        <label class="setting-label">
+                            <input type="checkbox" id="locationAlerts" checked>
+                            Location-based alerts
+                        </label>
+                    </div>
+                    <div class="setting-item">
+                        <label class="setting-label">
+                            <input type="checkbox" id="adoptionUpdates" checked>
+                            Adoption updates
+                        </label>
                     </div>
                 </div>
-            `).join('');
-        }
 
-        // Load stray reports (from localStorage for demo)
-        function loadStrayReports() {
-            const saved = localStorage.getItem('pawconnect-reports');
-            if (saved) {
-                strayReports = JSON.parse(saved);
-            }
-        }
+                <div class="setting-group">
+                    <h3>Privacy</h3>
+                    <div class="setting-item">
+                        <label class="setting-label">
+                            <input type="checkbox" id="shareLocation" checked>
+                            Share location for nearby reports
+                        </label>
+                    </div>
+                </div>
 
-        // Save stray reports to localStorage
-        function saveStrayReports() {
-            localStorage.setItem('pawconnect-reports', JSON.stringify(strayReports));
-        }
+                <div class="setting-group">
+                    <h3>About</h3>
+                    <p>PawConnect v1.0.0</p>
+                    <p>Built with ❤️ for animal rescue</p>
+                </div>
+            </div>
+        </section>
+    </main>
 
-        // Calculate distance between two coordinates
-        function calculateDistance(lat1, lon1, lat2, lon2) {
-            const R = 3959; // Earth's radius in miles
-            const dLat = (lat2 - lat1) * Math.PI / 180;
-            const dLon = (lon2 - lon1) * Math.PI / 180;
-            const a = Math.sin(dLat/2) * Math.sin(dLat/2) +
-                    Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) *
-                    Math.sin(dLon/2) * Math.sin(dLon/2);
-            const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
-            return R * c;
-        }
-
-        // Save reports when they change
-        setInterval(saveStrayReports, 1000);
-    </script>
+    <script src="script.js"></script>
 </body>
 </html>
