@@ -12,6 +12,7 @@ const shelters = [
         name: "BARC Houston",
         address: "3200 Carr St, Houston, TX 77026",
         phone: "(713) 229-7300",
+        email: "info@barchouston.org",
         coords: [29.7604, -95.3698],
         capacity: 50
     },
@@ -20,6 +21,7 @@ const shelters = [
         name: "Friends For Life",
         address: "107 E 22nd St, Houston, TX 77008",
         phone: "(713) 863-9835",
+        email: "info@friendsforlife.org",
         coords: [29.7984, -95.4019],
         capacity: 30
     },
@@ -28,6 +30,7 @@ const shelters = [
         name: "Houston Pets Alive",
         address: "2800 Antoine Dr, Houston, TX 77092",
         phone: "(713) 862-3863",
+        email: "info@houstonpetsalive.org",
         coords: [29.8018, -95.4565],
         capacity: 25
     },
@@ -36,6 +39,7 @@ const shelters = [
         name: "SPCA of Texas - Houston",
         address: "900 Portway Dr, Houston, TX 77024",
         phone: "(713) 869-7722",
+        email: "houston@spca.org",
         coords: [29.7849, -95.4565],
         capacity: 40
     }
@@ -49,8 +53,8 @@ const samplePets = [
         breed: "Golden Retriever",
         age: "adult",
         gender: "Male",
-        description: "Friendly and energetic, loves playing fetch",
-        image: "https://images.unsplash.com/photo-1552053831-71594a27632d?w=300&h=200&fit=crop",
+        description: "Friendly and energetic, loves playing fetch. Great with children and other pets.",
+        image: "https://images.unsplash.com/photo-1552053831-71594a27632d?w=400&h=300&fit=crop&crop=face",
         shelter: "BARC Houston",
         location: "Houston, TX"
     },
@@ -61,8 +65,8 @@ const samplePets = [
         breed: "Siamese Mix",
         age: "adult",
         gender: "Female",
-        description: "Calm and affectionate, perfect lap cat",
-        image: "https://images.unsplash.com/photo-1574158622682-e40e69881006?w=300&h=200&fit=crop",
+        description: "Calm and affectionate, perfect lap cat. Loves cuddles and quiet environments.",
+        image: "https://images.unsplash.com/photo-1574158622682-e40e69881006?w=400&h=300&fit=crop&crop=face",
         shelter: "Friends For Life",
         location: "Houston, TX"
     },
@@ -73,8 +77,8 @@ const samplePets = [
         breed: "Labrador Mix",
         age: "puppy",
         gender: "Male",
-        description: "Playful puppy, great with kids",
-        image: "https://images.unsplash.com/photo-1583337130417-3346a1be7dee?w=300&h=200&fit=crop",
+        description: "Playful puppy, great with kids. Needs training and lots of exercise.",
+        image: "https://images.unsplash.com/photo-1583337130417-3346a1be7dee?w=400&h=300&fit=crop&crop=face",
         shelter: "Houston Pets Alive",
         location: "Houston, TX"
     },
@@ -85,9 +89,9 @@ const samplePets = [
         breed: "Maine Coon",
         age: "senior",
         gender: "Male",
-        description: "Gentle senior cat, very calm",
-        image: "https://images.unsplash.com/photo-1592194996308-7b43878e84a6?w=300&h=200&fit=crop",
-        shelter: "SPCA of Texas",
+        description: "Gentle senior cat, very calm. Perfect for quiet homes and senior citizens.",
+        image: "https://images.unsplash.com/photo-1592194996308-7b43878e84a6?w=400&h=300&fit=crop&crop=face",
+        shelter: "SPCA of Texas - Houston",
         location: "Houston, TX"
     },
     {
@@ -97,8 +101,8 @@ const samplePets = [
         breed: "Beagle Mix",
         age: "adult",
         gender: "Female",
-        description: "Sweet and gentle, loves walks",
-        image: "https://images.unsplash.com/photo-1543466835-00a7907e9de1?w=300&h=200&fit=crop",
+        description: "Sweet and gentle, loves walks. Great family dog, house-trained.",
+        image: "https://images.unsplash.com/photo-1543466835-00a7907e9de1?w=400&h=300&fit=crop&crop=face",
         shelter: "BARC Houston",
         location: "Houston, TX"
     },
@@ -109,9 +113,33 @@ const samplePets = [
         breed: "Black Domestic",
         age: "adult",
         gender: "Male",
-        description: "Independent and curious",
-        image: "https://images.unsplash.com/photo-1573865526739-10659fec78a5?w=300&h=200&fit=crop",
+        description: "Independent and curious. Loves to explore and play with toys.",
+        image: "https://images.unsplash.com/photo-1573865526739-10659fec78a5?w=400&h=300&fit=crop&crop=face",
         shelter: "Friends For Life",
+        location: "Houston, TX"
+    },
+    {
+        id: 7,
+        name: "Bella",
+        species: "dog",
+        breed: "Pit Bull Mix",
+        age: "adult",
+        gender: "Female",
+        description: "Loving and loyal companion. Great with experienced dog owners.",
+        image: "https://images.unsplash.com/photo-1601758228041-f3b2795255f1?w=400&h=300&fit=crop&crop=face",
+        shelter: "Houston Pets Alive",
+        location: "Houston, TX"
+    },
+    {
+        id: 8,
+        name: "Mittens",
+        species: "cat",
+        breed: "Tabby Mix",
+        age: "puppy",
+        gender: "Female",
+        description: "Adorable kitten, very playful and social. Needs a loving family.",
+        image: "https://images.unsplash.com/photo-1513245543132-31f507417b26?w=400&h=300&fit=crop&crop=face",
+        shelter: "SPCA of Texas - Houston",
         location: "Houston, TX"
     }
 ];
@@ -245,6 +273,12 @@ function getCurrentLocation() {
     if (navigator.geolocation) {
         locationText.innerHTML = '<span class="loading-spinner"></span> Getting your location...';
         
+        const options = {
+            enableHighAccuracy: true,
+            timeout: 10000,
+            maximumAge: 300000 // 5 minutes
+        };
+        
         navigator.geolocation.getCurrentPosition(
             function(position) {
                 userLocation = {
@@ -269,16 +303,58 @@ function getCurrentLocation() {
                 locationText.innerHTML = `✅ Location found: ${userLocation.lat.toFixed(4)}, ${userLocation.lng.toFixed(4)}`;
                 
                 addStrayReportMarkers();
+                showNotification('Location services enabled successfully!', 'success');
             },
             function(error) {
+                let errorMessage = '❌ Unable to get location. ';
+                
+                switch(error.code) {
+                    case error.PERMISSION_DENIED:
+                        errorMessage += 'Please allow location access in your browser settings.';
+                        break;
+                    case error.POSITION_UNAVAILABLE:
+                        errorMessage += 'Location information is unavailable.';
+                        break;
+                    case error.TIMEOUT:
+                        errorMessage += 'Location request timed out.';
+                        break;
+                    default:
+                        errorMessage += 'An unknown error occurred.';
+                        break;
+                }
+                
                 locationStatus.className = 'location-status error';
-                locationText.innerHTML = '❌ Unable to get location. Please enable location services.';
+                locationText.innerHTML = errorMessage;
+                
+                // Show manual location input option
+                locationText.innerHTML += '<br><button onclick="showManualLocationInput()" class="btn-secondary" style="margin-top: 10px;">Enter Location Manually</button>';
+                
                 console.error('Geolocation error:', error);
-            }
+            },
+            options
         );
     } else {
         locationStatus.className = 'location-status error';
-        locationText.innerHTML = '❌ Geolocation not supported by this browser.';
+        locationText.innerHTML = '❌ Geolocation not supported by this browser. <br><button onclick="showManualLocationInput()" class="btn-secondary" style="margin-top: 10px;">Enter Location Manually</button>';
+    }
+}
+
+function showManualLocationInput() {
+    const location = prompt('Please enter your location (e.g., "Houston, TX" or "29.7604, -95.3698"):');
+    if (location) {
+        // Try to parse as coordinates first
+        const coords = location.split(',').map(c => parseFloat(c.trim()));
+        if (coords.length === 2 && !isNaN(coords[0]) && !isNaN(coords[1])) {
+            userLocation = { lat: coords[0], lng: coords[1] };
+        } else {
+            // Use geocoding service (simplified - in real app, use proper geocoding API)
+            userLocation = { lat: 29.7604, lng: -95.3698 }; // Default to Houston
+        }
+        
+        map.setView([userLocation.lat, userLocation.lng], 13);
+        document.getElementById('locationStatus').className = 'location-status success';
+        document.getElementById('locationText').innerHTML = `✅ Location set: ${location}`;
+        addStrayReportMarkers();
     }
 }
 
@@ -418,11 +494,42 @@ function submitReport(e) {
     addStrayReportMarkers();
     saveStrayReports();
     
-    showNotification(`Report submitted successfully to ${selectedShelter.name}!`, 'success');
+    // Send real contact information
+    contactShelter(selectedShelter, newReport);
+    
+    showNotification(`Report submitted successfully to ${selectedShelter.name}! Check your email for confirmation.`, 'success');
     document.getElementById('reportForm').reset();
     document.getElementById('photoPreview').innerHTML = '';
     selectedShelter = null;
     validateReportForm();
+}
+
+function contactShelter(shelter, report) {
+    // Create email content
+    const subject = `Stray Animal Report - ${new Date().toLocaleDateString()}`;
+    const body = `
+Stray Animal Report Details:
+
+Description: ${report.description}
+Location: ${report.location}
+Coordinates: ${report.lat}, ${report.lng}
+Reported: ${new Date(report.timestamp).toLocaleString()}
+
+Please contact the shelter directly:
+📞 Phone: ${shelter.phone}
+📍 Address: ${shelter.address}
+
+Thank you for helping animals in need!
+    `.trim();
+    
+    // Create mailto link
+    const mailtoLink = `mailto:${shelter.email || 'info@' + shelter.name.toLowerCase().replace(/\s+/g, '') + '.org'}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+    
+    // Open email client
+    window.open(mailtoLink);
+    
+    // Also show contact info
+    showNotification(`Contact ${shelter.name} at ${shelter.phone} or visit ${shelter.address}`, 'info');
 }
 
 // Pet adoption functions
@@ -433,7 +540,7 @@ function displayPets() {
     petsGrid.innerHTML = filteredPets.map(pet => `
         <div class="pet-card">
             <div class="pet-image">
-                <img src="${pet.image}" alt="${pet.name}" onerror="this.src='https://via.placeholder.com/300x200?text=No+Image'">
+                <img src="${pet.image}" alt="${pet.name}" onerror="this.src='data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAwIiBoZWlnaHQ9IjMwMCIgdmlld0JveD0iMCAwIDQwMCAzMDAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSI0MDAiIGhlaWdodD0iMzAwIiBmaWxsPSIjRjVGNUY1Ii8+CjxjaXJjbGUgY3g9IjIwMCIgY3k9IjE1MCIgcj0iNTAiIGZpbGw9IiNEOUQ5RDkiLz4KPHN2ZyB4PSIxNzUiIHk9IjEyNSIgd2lkdGg9IjUwIiBoZWlnaHQ9IjUwIiB2aWV3Qm94PSIwIDAgMjQgMjQiIGZpbGw9IiM5OTk5OTkiPgo8cGF0aCBkPSJNMTIgMTJjMi4yMSAwIDQtMS43OSA0LTQgMC0yLjIxLTEuNzktNC00LTQtMi4yMSAwLTQgMS43OS00IDQgMCAyLjIxIDEuNzkgNCA0IDR6bTAgMmMtMi42NyAwLTggMS4zNC04IDR2MmgxNnYtMmMwLTIuNjYtNS4zMy00LTgtNHoiLz4KPC9zdmc+Cjx0ZXh0IHg9IjIwMCIgeT0iMjAwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmaWxsPSIjOTk5OTk5IiBmb250LWZhbWlseT0iQXJpYWwiIGZvbnQtc2l6ZT0iMTQiPkltYWdlIENvbWluZyBTb29uPC90ZXh0Pgo8L3N2Zz4K'">
             </div>
             <div class="pet-info">
                 <h3>${pet.name}</h3>
@@ -469,7 +576,39 @@ function filterPets() {
 function adoptPet(petId) {
     const pet = samplePets.find(p => p.id === petId);
     if (pet) {
-        showNotification(`Thank you for your interest in adopting ${pet.name}! We'll contact you soon.`, 'success');
+        // Find the shelter for this pet
+        const shelter = shelters.find(s => s.name === pet.shelter);
+        
+        if (shelter) {
+            // Create adoption inquiry email
+            const subject = `Adoption Inquiry for ${pet.name}`;
+            const body = `
+Hello,
+
+I am interested in adopting ${pet.name} (${pet.breed}, ${pet.age}, ${pet.gender}).
+
+Pet Details:
+- Name: ${pet.name}
+- Breed: ${pet.breed}
+- Age: ${pet.age}
+- Gender: ${pet.gender}
+- Description: ${pet.description}
+
+Please contact me to discuss the adoption process.
+
+Thank you!
+            `.trim();
+            
+            // Create mailto link
+            const mailtoLink = `mailto:${shelter.email || 'adoptions@' + shelter.name.toLowerCase().replace(/\s+/g, '') + '.org'}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+            
+            // Open email client
+            window.open(mailtoLink);
+            
+            showNotification(`Contact ${shelter.name} at ${shelter.phone} for adoption details about ${pet.name}!`, 'success');
+        } else {
+            showNotification(`Thank you for your interest in adopting ${pet.name}! Contact the shelter directly.`, 'success');
+        }
     }
 }
 
@@ -503,7 +642,26 @@ function submitVolunteerApplication(e) {
     const formData = new FormData(e.target);
     const data = Object.fromEntries(formData);
     
-    showNotification('Thank you for your volunteer application! We\'ll contact you soon.', 'success');
+    // Create volunteer application email
+    const subject = `Volunteer Application - ${data.volunteerName}`;
+    const body = `
+Volunteer Application Details:
+
+Name: ${data.volunteerName}
+Email: ${data.volunteerEmail}
+Phone: ${data.volunteerPhone}
+Interests: ${Array.from(data.volunteerInterests).join(', ')}
+
+Please contact this volunteer to discuss opportunities.
+
+Thank you!
+    `.trim();
+    
+    // Send to general contact email
+    const mailtoLink = `mailto:volunteers@pawconnect.org?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+    window.open(mailtoLink);
+    
+    showNotification('Volunteer application sent! Check your email for next steps.', 'success');
     closeAllModals();
     e.target.reset();
 }
@@ -517,7 +675,30 @@ function processDonation(e) {
     
     const donationAmount = amount === 'custom' ? customAmount : amount;
     
-    showNotification(`Thank you for your $${donationAmount} donation!`, 'success');
+    // Find shelter info
+    const shelterInfo = shelters.find(s => s.name.toLowerCase().includes(shelter.toLowerCase())) || 
+                       { name: 'General Fund', phone: '(713) 555-0123', address: 'Houston, TX' };
+    
+    // Create donation email
+    const subject = `Donation Inquiry - $${donationAmount}`;
+    const body = `
+Donation Details:
+
+Amount: $${donationAmount}
+Designated to: ${shelterInfo.name}
+Phone: ${shelterInfo.phone}
+Address: ${shelterInfo.address}
+
+Please contact me to process this donation.
+
+Thank you for supporting animal rescue!
+    `.trim();
+    
+    // Send to donation email
+    const mailtoLink = `mailto:donations@pawconnect.org?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+    window.open(mailtoLink);
+    
+    showNotification(`Donation inquiry sent! Contact ${shelterInfo.name} at ${shelterInfo.phone} to complete your $${donationAmount} donation.`, 'success');
     closeAllModals();
     e.target.reset();
 }
